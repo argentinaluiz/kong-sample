@@ -32,7 +32,7 @@ O Estado é um conjunto de configurações de Kong que é a fonte da verdade. O 
 Para verificar se o Deck está conectado ao Kong Gateway, execute o seguinte comando:
 
 ```bash
-docker run --network host kong/deck:v1.37.0 gateway ping
+docker run --add-host host.docker.internal:host-gateway --network host kong/deck:v1.37.0 gateway ping --kong-addr http://host.docker.internal:8001  
 ```
 
 ### Fazer dump do Kong Gateway via Deck
@@ -40,7 +40,7 @@ docker run --network host kong/deck:v1.37.0 gateway ping
 Para fazer dump do Kong Gateway via Deck, execute o seguinte comando:
 
 ```bash
-docker run --network host kong/deck:v1.37.0 gateway dump
+docker run --add-host host.docker.internal:host-gateway --network host kong/deck:v1.37.0 gateway dump --kong-addr http://host.docker.internal:8001  
 ```
 
 Isto vai gerar o resultado do YAML de todas as configurações do Kong Gateway no console
@@ -53,7 +53,7 @@ Isto vai gerar o resultado do YAML de todas as configurações do Kong Gateway n
 Temos 2 API para os partners:
 
 * Endereço original - http://localhost:3000 - Partner 1
-* Endereço no Kong Gateway http://localhost:8000/partner1 - Partner 1
+* Endereço no Kong Gateway http://host.docker.internal:8000/partner1 - Partner 1
 
 Apenas o endpoint de reserva de ingresso está protegido por autenticação key-auth.
 Para fazer a chamada é necessário passar o header `X-Api-Token` com o valor `123`.
@@ -61,7 +61,7 @@ Para fazer a chamada é necessário passar o header `X-Api-Token` com o valor `1
 Arquivo `api.http` tem o teste da API.
 
 * Endereço original - http://localhost:3001 - Partner 2
-* Endereço no Kong Gateway http://localhost:8000/partner2 - Partner 2
+* Endereço no Kong Gateway http://host.docker.internal:8000/partner2 - Partner 2
 
 Apenas o endpoint de reserva de ingresso está protegido por autenticação key-auth.
 Para fazer a chamada é necessário passar o header `X-Api-Token` com o valor `000`.
@@ -69,7 +69,7 @@ Para fazer a chamada é necessário passar o header `X-Api-Token` com o valor `0
 ## API de vendas (Golang)
 
 * Endereço original - http://localhost:8080 - API de vendas
-* Endereço no Kong Gateway http://localhost:8000/golang - API de vendas
+* Endereço no Kong Gateway http://host.docker.internal:8000/golang - API de vendas
 
 Todos os endpoints estão protegidos por autenticação key-auth.
 Para fazer a chamada é necessário passar o header `X-Api-Token` com o valor `890`.
@@ -77,7 +77,7 @@ Para fazer a chamada é necessário passar o header `X-Api-Token` com o valor `8
 ## Front-end (Next.js)
 
 * Endereço original http://localhost:3002 - Front-end
-* Endereço no Kong Gateway http://localhost:8000/nextjs - Front-end
+* Endereço no Kong Gateway http://host.docker.internal:8000/nextjs - Front-end
 
 
 
